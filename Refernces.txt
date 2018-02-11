@@ -1,0 +1,4 @@
+Java classes and objects : https://youtu.be/IwOgx6XO_mY
+Add Genymotion to Android Studio: https://www.genymotion.com/plugins/
+Tabs Using Fragments Tutorial : https://youtu.be/bNpWGI_hGGg
+Related Information To The Fragments Tutorial : developer.android.com

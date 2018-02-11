@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Your Organizer</string>
+    <string name="books_tab">Books</string>
+    <string name="series_tab">Series</string>
+    <string name="films_tab">Films</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+</resources>
