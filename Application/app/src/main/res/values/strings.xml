@@ -5,4 +5,11 @@
     <string name="films_tab">Films</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="books_tab_name">Name</string>
+    <string name="books_tab_chapter">Chapter</string>
+    <string name="books_tab_page">Page</string>
+    <string name="books_tab_status">Status</string>
+    <string name="books_addBtn">Add</string>
+    <string name="books_modifyBtn">Modify</string>
+    <string name="books_deleteBtn">Delete</string>
 </resources>
