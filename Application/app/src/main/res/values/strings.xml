@@ -12,4 +12,8 @@
     <string name="books_addBtn">Add</string>
     <string name="books_modifyBtn">Modify</string>
     <string name="books_deleteBtn">Delete</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_onGoing">On Going</string>
+    <string name="title_activity_add_modify_book">AddModifyBook</string>
+
 </resources>

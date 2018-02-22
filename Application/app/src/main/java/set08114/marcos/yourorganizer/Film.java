@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by Marcos on 13/02/2018.
  */
 
-public class Cinema {
+public class Film {
 
     private String name;        //Name of the film
     private Date releaseDate;   //Release date of the film

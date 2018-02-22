@@ -1,16 +1,18 @@
 package set08114.marcos.yourorganizer;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,18 +26,30 @@ import java.util.List;
 
 public class BookFragment extends Fragment{
 
-    List<String> listExample = Arrays.asList("Hello","my","name","is","marcosSSSSSSSSSSSSS");
+    List<String> listExample = Arrays.asList("Hello","my","name","is","marcos");
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.books_fragment,container,false);
         this.initializeBookTable(listExample,view);
+        Button addBtn = view.findViewById(R.id.addBtn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddModifyBook.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
     private void initializeBookTable(List<String> listExample,View view)
     {
+        //Get screen width
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int screenWidth = displaymetrics.widthPixels;
         TableLayout table =  view.findViewById(R.id.book_tableLayout);
         //Border for the text views
         GradientDrawable gd = new GradientDrawable();
@@ -56,6 +70,7 @@ public class BookFragment extends Fragment{
         headerName.setPadding(20,0,20,0);
         headerName.setTypeface(font);
         headerName.setTextColor(Color.BLACK);
+        headerName.setWidth(screenWidth/4);
         headerRow.addView(headerName);
         //Header chapter text view
         TextView headerChapter = new TextView(this.getContext());
@@ -64,6 +79,7 @@ public class BookFragment extends Fragment{
         headerChapter.setPadding(20,0,20,0);
         headerChapter.setTypeface(font);
         headerChapter.setTextColor(Color.BLACK);
+        headerChapter.setWidth(screenWidth/4);
         headerRow.addView(headerChapter);
         //Header page text view
         TextView headerPage = new TextView(this.getContext());
@@ -72,6 +88,7 @@ public class BookFragment extends Fragment{
         headerPage.setPadding(20,0,20,0);
         headerPage.setTypeface(font);
         headerPage.setTextColor(Color.BLACK);
+        headerPage.setWidth(screenWidth/4);
         headerRow.addView(headerPage);
         //Header name text view
         TextView headerStatus = new TextView(this.getContext());
@@ -80,6 +97,7 @@ public class BookFragment extends Fragment{
         headerStatus.setPadding(20,0,20,0);
         headerStatus.setTypeface(font);
         headerStatus.setTextColor(Color.BLACK);
+        headerStatus.setWidth(screenWidth/4);
         headerRow.addView(headerStatus);
         //Add row to table
         table.addView(headerRow);
