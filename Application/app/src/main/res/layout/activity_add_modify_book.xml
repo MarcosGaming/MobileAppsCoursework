@@ -109,7 +109,8 @@
                 android:layout_marginTop="304dp"
                 android:text="@string/status_completed"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="onCheckboxClicked" />
 
             <CheckBox
                 android:id="@+id/onGoingCheckBox"
@@ -121,7 +122,8 @@
                 android:text="@string/status_onGoing"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/completedCheckBox"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="onCheckboxClicked" />
 
             <Button
                 android:id="@+id/modifyBtn"
