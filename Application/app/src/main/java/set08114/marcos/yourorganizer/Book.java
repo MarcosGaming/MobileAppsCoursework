@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class Book implements Serializable {
 
     private String name;    //Name of the book
-    private int chapter;    //Chapter of the book
-    private int page;       //Page of the book
+    private String chapter;    //Chapter of the book
+    private String page;       //Page of the book
     private String status;  //Status of the book
 
     public String getName() {
@@ -21,19 +21,19 @@ public class Book implements Serializable {
         this.name = name;
     }
 
-    public int getChapter() {
+    public String getChapter() {
         return chapter;
     }
 
-    public void setChapter(int chapter) {
+    public void setChapter(String chapter) {
         this.chapter = chapter;
     }
 
-    public int getPage() {
+    public String getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(String page) {
         this.page = page;
     }
 

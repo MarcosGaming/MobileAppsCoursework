@@ -13,7 +13,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class AddModifyBook extends AppCompatActivity
 {
-
+    InternalStorage storage;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -23,6 +23,9 @@ public class AddModifyBook extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        storage = InternalStorage.getInstance(this);
+        Button modifyBtn = findViewById(R.id.modifyBtn);
+        modifyBtn.setEnabled(false);
         Button addBtn = findViewById(R.id.addBtn);
         addBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -37,26 +40,40 @@ public class AddModifyBook extends AppCompatActivity
                 {
                     String message = "Please enter a name";
                     Toast.makeText(getApplicationContext(), message, LENGTH_SHORT).show();
+                    return;
                 }
                 else
                 {
-                    Book book = new Book();
-                    book.setName(nameText.getText().toString());
-                    book.setChapter(Integer.parseInt(chapterText.getText().toString()));
-                    book.setPage(Integer.parseInt(pageText.getText().toString()));
-                    //Check if one of the check boxes is checked
-                    CheckBox completedCheckBox = findViewById(R.id.completedCheckBox);
-                    CheckBox onGoingCheckBox = findViewById(R.id.onGoingCheckBox);
-                    if(completedCheckBox.isChecked())
+                    try
                     {
-                        book.setStatus(completedCheckBox.getText().toString());
+                        Book book = new Book();
+                        book.setName(nameText.getText().toString());
+                        book.setChapter(chapterText.getText().toString());
+                        book.setPage(pageText.getText().toString());
+                        //Check if one of the check boxes is checked
+                        CheckBox completedCheckBox = findViewById(R.id.completedCheckBox);
+                        CheckBox onGoingCheckBox = findViewById(R.id.onGoingCheckBox);
+                        if(completedCheckBox.isChecked())
+                        {
+                            book.setStatus(completedCheckBox.getText().toString());
+                        }
+                        else if(onGoingCheckBox.isChecked())
+                        {
+                            book.setStatus(onGoingCheckBox.getText().toString());
+                        }
+                        //Add book to storage
+                        storage.addBook(book);
+                        //Reset interface elements
+                        nameText.setText("");
+                        chapterText.setText("");
+                        pageText.setText("");
+                        completedCheckBox.setChecked(false);
+                        onGoingCheckBox.setChecked(false);
                     }
-                    else if(onGoingCheckBox.isChecked())
+                    catch(IllegalArgumentException e)
                     {
-                        book.setStatus(onGoingCheckBox.getText().toString());
+                        Toast.makeText(getApplicationContext(), e.getMessage(), LENGTH_SHORT).show();
                     }
-                    //Add book to storage
-
                 }
             }
         });
