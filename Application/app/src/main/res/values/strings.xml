@@ -15,5 +15,9 @@
     <string name="status_completed">Completed</string>
     <string name="status_onGoing">On Going</string>
     <string name="title_activity_add_modify_book">AddModifyBook</string>
+    <string name="book_NAME">NAME</string>
+    <string name="book_CHAPTER">CHAPTER</string>
+    <string name="book_PAGE">PAGE</string>
+    <string name="book_STATUS">STATUS</string>
 
 </resources>

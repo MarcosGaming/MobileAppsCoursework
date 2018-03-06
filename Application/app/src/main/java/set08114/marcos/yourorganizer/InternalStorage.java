@@ -17,7 +17,8 @@ import static android.content.ContentValues.TAG;
 
 /**
  * Created by Marcos on 14/02/2018.
- * Singleton Pattern Used
+ * Singleton design patter used to only have one instance of this class.
+ * Last modified date : 05/03/2018
  */
 
 public class InternalStorage
@@ -77,9 +78,14 @@ public class InternalStorage
         }
 
     }
+    public void modifyBook(Book oldBook, Book newBook)
+    {
+        bookList.set(bookList.indexOf(findBook(oldBook.getName())),newBook);
+        sortBookList();
+    }
     public void removeBook(Book book)
     {
-        bookList.remove(book);
+        bookList.remove(findBook(book.getName()));
         sortBookList();
     }
     public Book findBook(String book)
@@ -87,7 +93,7 @@ public class InternalStorage
         Book foundBook = null;
         for (Book b : bookList)
         {
-            if(b.getName().equals(book))
+            if(b.getName().equalsIgnoreCase(book))
             {
                 foundBook = b;
             }
@@ -174,8 +180,7 @@ public class InternalStorage
             ClassNotFoundException {
         FileInputStream fis = context.openFileInput(key);
         ObjectInputStream ois = new ObjectInputStream(fis);
-        Object object = ois.readObject();
-        return object;
+        return ois.readObject();
     }
 
     //Method to sort book lists

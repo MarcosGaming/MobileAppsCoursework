@@ -3,19 +3,12 @@ package set08114.marcos.yourorganizer;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +24,8 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * Created by Marcos on 11/02/2018.
+ * Activity that shows the list of books stored and allows the user to perform different types of operations with them.
+ * Last modified date : 05/03/2018.
  */
 
 public class BookFragment extends Fragment{
@@ -38,6 +33,7 @@ public class BookFragment extends Fragment{
     InternalStorage storage;
     Book selectedBook;
     Boolean selection = false;
+    TableRow selectedRow;
 
     @Nullable
     @Override
@@ -45,7 +41,12 @@ public class BookFragment extends Fragment{
     {
         View view = inflater.inflate(R.layout.books_fragment,container,false);
         storage = InternalStorage.getInstance(this.getContext());
-        this.initializeBookTable(storage.getBookList(),view);
+        final Button modifyBtn = view.findViewById(R.id.modifyBtn);
+        final Button deleteBtn = view.findViewById(R.id.deleteBtn);
+        //Disable modify and delete buttons
+        modifyBtn.setEnabled(false);
+        deleteBtn.setEnabled(false);
+        this.initializeBookTable(storage.getBookList(),view, modifyBtn, deleteBtn);
         Button addBtn = view.findViewById(R.id.addBtn);
         addBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -55,10 +56,41 @@ public class BookFragment extends Fragment{
                 startActivity(intent);
             }
         });
+        modifyBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getActivity(), AddModifyBook.class);
+                //Passing the selected book to the AddModifyBook activity
+                intent.putExtra("selectedBook",selectedBook);
+                startActivity(intent);
+                selectedBook = null;
+                selection = false;
+            }
+        });
+        final TableLayout table = view.findViewById(R.id.book_tableLayout);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                storage.removeBook(selectedBook);
+                selectedBook = null;
+                selection = false;
+                modifyBtn.setEnabled(false);
+                deleteBtn.setEnabled(false);
+                table.removeView(selectedRow);
+            }
+        });
         return view;
     }
 
-    private void initializeBookTable(final List<Book> bookList, View view)
+    @Override
+    public void onPause() {
+        super.onPause();
+        storage.storeLists();
+    }
+
+    private void initializeBookTable(final List<Book> bookList, View view, final Button modifyBtn, final Button deleteBtn)
     {
         //Get screen width
         DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -79,7 +111,7 @@ public class BookFragment extends Fragment{
         headerRow.setLayoutParams(headerRowParams);
         //Header name text view
         TextView headerName = new TextView(this.getContext());
-        headerName.setText("NAME");
+        headerName.setText(getResources().getString(R.string.book_NAME));
         headerName.setBackground(gd);
         headerName.setPadding(20,0,20,0);
         headerName.setTypeface(font);
@@ -88,7 +120,7 @@ public class BookFragment extends Fragment{
         headerRow.addView(headerName);
         //Header chapter text view
         TextView headerChapter = new TextView(this.getContext());
-        headerChapter.setText("CHAPTER");
+        headerChapter.setText(getResources().getString(R.string.book_CHAPTER));
         headerChapter.setBackground(gd);
         headerChapter.setPadding(20,0,20,0);
         headerChapter.setTypeface(font);
@@ -97,7 +129,7 @@ public class BookFragment extends Fragment{
         headerRow.addView(headerChapter);
         //Header page text view
         TextView headerPage = new TextView(this.getContext());
-        headerPage.setText("PAGE");
+        headerPage.setText(getResources().getString(R.string.book_PAGE));
         headerPage.setBackground(gd);
         headerPage.setPadding(20,0,20,0);
         headerPage.setTypeface(font);
@@ -106,7 +138,7 @@ public class BookFragment extends Fragment{
         headerRow.addView(headerPage);
         //Header name text view
         TextView headerStatus = new TextView(this.getContext());
-        headerStatus.setText("STATUS");
+        headerStatus.setText(getResources().getString(R.string.book_STATUS));
         headerStatus.setBackground(gd);
         headerStatus.setPadding(20,0,20,0);
         headerStatus.setTypeface(font);
@@ -119,7 +151,7 @@ public class BookFragment extends Fragment{
         {
             TableRow row = new TableRow(this.getContext());
             //Set row parameters
-            TableLayout.LayoutParams tableRowParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+            TableLayout.LayoutParams tableRowParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
             tableRowParams.setMargins(0,1,0,1);
             row.setLayoutParams(tableRowParams);
             //Set text views parameters
@@ -150,31 +182,29 @@ public class BookFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     TableRow tableRow = (TableRow) view;
+                    selectedRow = tableRow;
                     //If the row is already selected (in red) deselect it
                     TextView textViewCheck = (TextView) tableRow.getChildAt(0);
-                    GradientDrawable cd = (GradientDrawable) textViewCheck.getBackground();
-                    Log.i("check color","ok");
-                    if(cd.getColor().getDefaultColor() == Color.RED)
+                    if(selection && textViewCheck.getText().toString().equals(selectedBook.getName()))
                     {
-                        Log.i("check color","ok2");
                         for(int i = 0; i < 4; i++)
                         {
                             TextView textView = (TextView) tableRow.getChildAt(i);
                             textView.setBackground(gd);
-                            Log.i("check color","ok3");
                         }
+                        //Disable add and modify buttons when row is deselected
+                        modifyBtn.setEnabled(false);
+                        deleteBtn.setEnabled(false);
                         selection = false;
                         selectedBook = null;
-                        Log.i("check color","ok4");
                     }
                     //If the row is not in red check if there is already a selected row
                     else
                     {
-                        if(selection == true)
+                        if(selection)
                         {
                             String message = "Please select only one";
                             Toast.makeText(getContext(), message, LENGTH_SHORT).show();
-                            return;
                         }
                         else
                         {
@@ -183,6 +213,9 @@ public class BookFragment extends Fragment{
                                 TextView textView = (TextView) tableRow.getChildAt(i);
                                 textView.setBackgroundColor(Color.RED);
                             }
+                            //Enable add and modify buttons when row is selected
+                            modifyBtn.setEnabled(true);
+                            deleteBtn.setEnabled(true);
                             TextView nameView = (TextView) tableRow.getChildAt(0);
                             selectedBook = storage.findBook(nameView.getText().toString());
                             selection = true;
