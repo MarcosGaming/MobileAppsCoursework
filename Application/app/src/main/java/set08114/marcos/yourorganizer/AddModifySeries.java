@@ -14,63 +14,63 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * Created by Marcos on 11/02/2018.
- * Activity that allows the user to add a new book to the storage or modify an already stored book
+ * Activity that allows the user to add a new series to the storage or modify an already stored series
  * Last modified date : 11/03/2018.
  */
 
-public class AddModifyBook extends AppCompatActivity
+public class AddModifySeries extends AppCompatActivity
 {
     InternalStorage storage;
-    Book selectedBook;
+    Series selectedSeries;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_modify_book);
+        setContentView(R.layout.activity_add_modify_series);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         storage = InternalStorage.getInstance(this);
-        Button modifyBtn = findViewById(R.id.finishModifyBtnBook);
-        Button addBtn = findViewById(R.id.finishAddBtnBook);
-        //Get selectedBook
+        Button modifyBtn = findViewById(R.id.finishModifyBtnSeries);
+        Button addBtn = findViewById(R.id.finishAddBtnSeries);
+        //Get selectedSeries
         Intent i = getIntent();
-        selectedBook = (Book)i.getSerializableExtra("selectedBook");
-        //Activity behaviour depends on the selectedBook value
-        if(selectedBook == null)
+        selectedSeries = (Series)i.getSerializableExtra("selectedSeries");
+        //Activity behaviour depends on the selectedSeries value
+        if(selectedSeries == null)
         {
             modifyBtn.setEnabled(false);
         }
         else
         {
             addBtn.setEnabled(false);
-            //Set the widgets according to the selectedBook properties
-            EditText nameText = findViewById(R.id.bookNameEditText);
-            EditText chapterText = findViewById(R.id.bookChapterEditText);
-            EditText pageText = findViewById(R.id.bookPageEditText);
-            //The book name can not be modified
-            nameText.setText(selectedBook.getName());
+            //Set the widgets according to the selectedSeries properties
+            EditText nameText = findViewById(R.id.seriesNameEditText);
+            EditText seasonText = findViewById(R.id.seriesSeasonEditText);
+            EditText episodeText = findViewById(R.id.seriesEpisodeEditText);
+            //The series name can not be modified
+            nameText.setText(selectedSeries.getName());
             nameText.setFocusable(false);
             //Make sure that the attributes are not null
-            if(selectedBook.getChapter() != null)
+            if(selectedSeries.getSeason() != null)
             {
-                chapterText.setText(selectedBook.getChapter());
+                seasonText.setText(selectedSeries.getSeason());
             }
-            if(selectedBook.getPage() != null)
+            if(selectedSeries.getEpisode() != null)
             {
-                pageText.setText(selectedBook.getPage());
+                episodeText.setText(selectedSeries.getEpisode());
             }
-            if(selectedBook.getStatus() != null)
+            if(selectedSeries.getStatus() != null)
             {
-                if(selectedBook.getStatus().equals(getResources().getString(R.string.status_completed)))
+                if(selectedSeries.getStatus().equals(getResources().getString(R.string.status_completed)))
                 {
-                    CheckBox completedCheckBox = findViewById(R.id.bookCompletedCheckBox);
+                    CheckBox completedCheckBox = findViewById(R.id.seriesCompletedCheckBox);
                     completedCheckBox.setChecked(true);
                 }
-                else if(selectedBook.getStatus().equals(getResources().getString(R.string.status_onGoing)))
+                else if(selectedSeries.getStatus().equals(getResources().getString(R.string.status_onGoing)))
                 {
-                    CheckBox onGoingCheckBox = findViewById(R.id.bookOnGoingCheckBox);
+                    CheckBox onGoingCheckBox = findViewById(R.id.seriesOnGoingCheckBox);
                     onGoingCheckBox.setChecked(true);
                 }
             }
@@ -81,9 +81,9 @@ public class AddModifyBook extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                EditText nameText = findViewById(R.id.bookNameEditText);
-                EditText chapterText = findViewById(R.id.bookChapterEditText);
-                EditText pageText = findViewById(R.id.bookPageEditText);
+                EditText nameText = findViewById(R.id.seriesNameEditText);
+                EditText seasonText = findViewById(R.id.seriesSeasonEditText);
+                EditText episodeText = findViewById(R.id.seriesEpisodeEditText);
                 //The user must enter at least the name
                 if(nameText.getText().toString().isEmpty())
                 {
@@ -94,27 +94,27 @@ public class AddModifyBook extends AppCompatActivity
                 {
                     try
                     {
-                        Book book = new Book();
-                        book.setName(nameText.getText().toString());
-                        book.setChapter(chapterText.getText().toString());
-                        book.setPage(pageText.getText().toString());
+                        Series series = new Series();
+                        series.setName(nameText.getText().toString());
+                        series.setSeason(seasonText.getText().toString());
+                        series.setEpisode(episodeText.getText().toString());
                         //Check if one of the check boxes is checked
-                        CheckBox completedCheckBox = findViewById(R.id.bookCompletedCheckBox);
-                        CheckBox onGoingCheckBox = findViewById(R.id.bookOnGoingCheckBox);
+                        CheckBox completedCheckBox = findViewById(R.id.seriesCompletedCheckBox);
+                        CheckBox onGoingCheckBox = findViewById(R.id.seriesOnGoingCheckBox);
                         if(completedCheckBox.isChecked())
                         {
-                            book.setStatus(completedCheckBox.getText().toString());
+                            series.setStatus(completedCheckBox.getText().toString());
                         }
                         else if(onGoingCheckBox.isChecked())
                         {
-                            book.setStatus(onGoingCheckBox.getText().toString());
+                            series.setStatus(onGoingCheckBox.getText().toString());
                         }
-                        //Add book to storage
-                        storage.addBook(book);
+                        //Add series to storage
+                        storage.addSeries(series);
                         //Reset interface elements
                         nameText.setText("");
-                        chapterText.setText("");
-                        pageText.setText("");
+                        seasonText.setText("");
+                        episodeText.setText("");
                         completedCheckBox.setChecked(false);
                         onGoingCheckBox.setChecked(false);
                     }
@@ -129,28 +129,28 @@ public class AddModifyBook extends AppCompatActivity
         modifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText nameText = findViewById(R.id.bookNameEditText);
-                EditText chapterText = findViewById(R.id.bookChapterEditText);
-                EditText pageText = findViewById(R.id.bookPageEditText);
+                EditText nameText = findViewById(R.id.seriesNameEditText);
+                EditText seasonText = findViewById(R.id.seriesSeasonEditText);
+                EditText episodeText = findViewById(R.id.seriesEpisodeEditText);
                 try
                 {
-                    Book book = new Book();
-                    book.setName(nameText.getText().toString());
-                    book.setChapter(chapterText.getText().toString());
-                    book.setPage(pageText.getText().toString());
+                    Series series = new Series();
+                    series.setName(nameText.getText().toString());
+                    series.setSeason(seasonText.getText().toString());
+                    series.setEpisode(episodeText.getText().toString());
                     //Check if one of the check boxes is checked
-                    CheckBox completedCheckBox = findViewById(R.id.bookCompletedCheckBox);
-                    CheckBox onGoingCheckBox = findViewById(R.id.bookOnGoingCheckBox);
+                    CheckBox completedCheckBox = findViewById(R.id.seriesCompletedCheckBox);
+                    CheckBox onGoingCheckBox = findViewById(R.id.seriesOnGoingCheckBox);
                     if(completedCheckBox.isChecked())
                     {
-                        book.setStatus(completedCheckBox.getText().toString());
+                        series.setStatus(completedCheckBox.getText().toString());
                     }
                     else if(onGoingCheckBox.isChecked())
                     {
-                        book.setStatus(onGoingCheckBox.getText().toString());
+                        series.setStatus(onGoingCheckBox.getText().toString());
                     }
-                    //Modify old book(selected book)
-                    storage.modifyBook(selectedBook, book);
+                    //Modify old series(selected series)
+                    storage.modifySeries(selectedSeries, series);
                     String message = "Book successfully modified";
                     Toast.makeText(getApplicationContext(),message, LENGTH_SHORT).show();
                 }
@@ -164,16 +164,16 @@ public class AddModifyBook extends AppCompatActivity
 
     public void onCheckboxClicked(View view)
     {
-        CheckBox completedCheckBox = findViewById(R.id.bookCompletedCheckBox);
-        CheckBox onGoingCheckBox = findViewById(R.id.bookOnGoingCheckBox);
+        CheckBox completedCheckBox = findViewById(R.id.seriesCompletedCheckBox);
+        CheckBox onGoingCheckBox = findViewById(R.id.seriesOnGoingCheckBox);
         // Check which checkbox was clicked
         switch(view.getId())
         {
-            case R.id.bookCompletedCheckBox:
+            case R.id.seriesCompletedCheckBox:
                 completedCheckBox.setChecked(true);
                 onGoingCheckBox.setChecked(false);
                 break;
-            case R.id.bookOnGoingCheckBox:
+            case R.id.seriesOnGoingCheckBox:
                 onGoingCheckBox.setChecked(true);
                 completedCheckBox.setChecked(false);
                 break;

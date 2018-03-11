@@ -14,10 +14,35 @@
     <string name="books_deleteBtn">Delete</string>
     <string name="status_completed">Completed</string>
     <string name="status_onGoing">On Going</string>
+    <string name="status_seen">Seen</string>
+    <string name="status_notSeen">Not Seen</string>
     <string name="title_activity_add_modify_book">AddModifyBook</string>
     <string name="book_NAME">NAME</string>
     <string name="book_CHAPTER">CHAPTER</string>
     <string name="book_PAGE">PAGE</string>
     <string name="book_STATUS">STATUS</string>
+    <string name="films_addBtn">Add</string>
+    <string name="films_modifyBtn">Modify</string>
+    <string name="films_deleteBtn">Delete</string>
+    <string name="films_tab_name">Name</string>
+    <string name="films_tab_date">Release Date</string>
+    <string name="films_tab_status">Status</string>
+    <string name="film_NAME">NAME</string>
+    <string name="film_RELEASE">RELEASE DATE</string>
+    <string name="film_STATUS">STATUS</string>
+    <string name="title_activity_add_modify_film">AddModifyFilm</string>
+    <string name="series_addBtn">Add</string>
+    <string name="series_modifyBtn">Modify</string>
+    <string name="series_deleteBtn">Delete</string>
+    <string name="series_NAME">NAME</string>
+    <string name="series_SEASON">SEASON</string>
+    <string name="series_EPISODE">EPISODE</string>
+    <string name="series_STATUS">STATUS</string>
+    <string name="title_activity_add_modify_series">AddModifySeries</string>
+    <string name="series_tab_name">Name</string>
+    <string name="series_tab_season">Season</string>
+    <string name="series_tab_episode">Episode</string>
+    <string name="series_tab_status">Status</string>
+
 
 </resources>

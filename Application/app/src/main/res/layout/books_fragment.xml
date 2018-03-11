@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="60dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,21 +18,21 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/addBtn"
+            android:id="@+id/addBtnBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/books_addBtn" />
 
         <Button
-            android:id="@+id/modifyBtn"
+            android:id="@+id/modifyBtnBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/books_modifyBtn" />
 
         <Button
-            android:id="@+id/deleteBtn"
+            android:id="@+id/deleteBtnBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

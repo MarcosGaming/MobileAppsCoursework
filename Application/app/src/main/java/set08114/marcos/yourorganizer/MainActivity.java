@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        //Set tab icons
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_book);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_tv);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_film);
+
 
     }
 
@@ -84,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-        @Override
         public Fragment getItem(int position){
             return mFragmentList.get(position);
         }
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpViewPager(ViewPager viewPager){
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new BookFragment(),"BOOKS");
-        adapter.addFragment(new SerieFragment(),"SERIES");
+        adapter.addFragment(new SeriesFragment(),"SERIES");
         adapter.addFragment(new FilmFragment(),"FILMS");
         viewPager.setAdapter(adapter);
     }

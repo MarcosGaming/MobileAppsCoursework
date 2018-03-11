@@ -25,11 +25,11 @@ public class InternalStorage
 {
 
     private static InternalStorage instance;
-    private static Context context;
+    private Context context;
     //Lists
     private List<Book> bookList;
     private List<Film> filmList;
-    private List<Serie> serieList;
+    private List<Series> seriesList;
     //Storage keys
     private String booksKey = "bookList";
     private String filmsKey = "filmList";
@@ -49,9 +49,9 @@ public class InternalStorage
         {
             filmList = new ArrayList<>();
         }
-        if(serieList == null)
+        if(seriesList == null)
         {
-            serieList = new ArrayList<>();
+            seriesList = new ArrayList<>();
         }
     }
     //Accessor that only allows to get the singleton instance
@@ -100,10 +100,35 @@ public class InternalStorage
         }
         return foundBook;
     }
+
     //Film list operations
     public void addFilm(Film film)
     {
-        filmList.add(film);
+        if(filmList.contains(findFilm(film.getName())))
+        {
+            throw new IllegalArgumentException("Film already added");
+        }
+        else
+        {
+            filmList.add(film);
+            sortFilmList();
+        }
+    }
+    public Film findFilm(String film)
+    {
+        Film foundFilm = null;
+        for (Film f : filmList)
+        {
+            if(f.getName().equalsIgnoreCase(film))
+            {
+                foundFilm = f;
+            }
+        }
+        return foundFilm;
+    }
+    public void modifyFilm(Film oldFilm, Film newFilm)
+    {
+        filmList.set(filmList.indexOf(findFilm(oldFilm.getName())),newFilm);
         sortFilmList();
     }
     public void removeFilm(Film film)
@@ -111,27 +136,52 @@ public class InternalStorage
         filmList.remove(film);
         sortFilmList();
     }
-    //Serie list operations
-    public void addSerie(Serie serie)
+
+    //Series list operations
+    public void addSeries(Series series)
     {
-        serieList.add(serie);
-        sortSerieList();
+        if(seriesList.contains(findSeries(series.getName())))
+        {
+            throw new IllegalArgumentException("Series already added");
+        }
+        else
+        {
+            seriesList.add(series);
+            sortSeriesList();
+        }
     }
-    public void removeSerie(Serie serie)
+    public Series findSeries(String series)
     {
-        serieList.remove(serie);
-        sortSerieList();
+        Series foundSeries = null;
+        for (Series s : seriesList)
+        {
+            if(s.getName().equalsIgnoreCase(series))
+            {
+                foundSeries = s;
+            }
+        }
+        return foundSeries;
     }
+    public void modifySeries(Series oldSeries, Series newSeries)
+    {
+        seriesList.set(seriesList.indexOf(findSeries(oldSeries.getName())),newSeries);
+        sortSeriesList();
+    }
+    public void removeSeries(Series series)
+    {
+        seriesList.remove(series);
+        sortSeriesList();
+    }
+
+    //Get the lists
     public List<Book> getBookList() {
         return bookList;
     }
-
     public List<Film> getFilmList() {
         return filmList;
     }
-
-    public List<Serie> getSerieList() {
-        return serieList;
+    public List<Series> getSeriesList() {
+        return seriesList;
     }
 
     //Retrieves lists from internal storage
@@ -141,7 +191,7 @@ public class InternalStorage
         {
             bookList = (List<Book>) readObject(context,booksKey);
             filmList = (List<Film>) readObject(context,filmsKey);
-            serieList = (List<Serie>) readObject(context,seriesKey);
+            seriesList = (List<Series>) readObject(context,seriesKey);
         }
         catch(IOException e)
         {
@@ -159,7 +209,7 @@ public class InternalStorage
         {
             writeObject(context,booksKey,bookList);
             writeObject(context,filmsKey,filmList);
-            writeObject(context,seriesKey,serieList);
+            writeObject(context,seriesKey, seriesList);
         }
         catch(IOException e)
         {
@@ -203,12 +253,12 @@ public class InternalStorage
             }
         });
     }
-    //Method to sort serie list
-    private void sortSerieList()
+    //Method to sort series list
+    private void sortSeriesList()
     {
-        Collections.sort(serieList, new Comparator<Serie>() {
+        Collections.sort(seriesList, new Comparator<Series>() {
             @Override
-            public int compare(Serie s1, Serie s2) {
+            public int compare(Series s1, Series s2) {
                 return s1.getName().compareTo(s2.getName());
             }
         });

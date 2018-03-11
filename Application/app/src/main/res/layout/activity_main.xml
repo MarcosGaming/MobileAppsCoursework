@@ -36,19 +36,19 @@
                 android:id="@+id/tabItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/books_tab" />
+                android:icon="@drawable/ic_book"/>
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/series_tab" />
+                android:icon="@drawable/ic_tv"/>
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/films_tab" />
+                android:icon="@drawable/ic_film"/>
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>

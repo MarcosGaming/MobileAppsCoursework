@@ -41,13 +41,13 @@ public class BookFragment extends Fragment{
     {
         View view = inflater.inflate(R.layout.books_fragment,container,false);
         storage = InternalStorage.getInstance(this.getContext());
-        final Button modifyBtn = view.findViewById(R.id.modifyBtn);
-        final Button deleteBtn = view.findViewById(R.id.deleteBtn);
+        final Button modifyBtn = view.findViewById(R.id.modifyBtnBook);
+        final Button deleteBtn = view.findViewById(R.id.deleteBtnBook);
         //Disable modify and delete buttons
         modifyBtn.setEnabled(false);
         deleteBtn.setEnabled(false);
         this.initializeBookTable(storage.getBookList(),view, modifyBtn, deleteBtn);
-        Button addBtn = view.findViewById(R.id.addBtn);
+        Button addBtn = view.findViewById(R.id.addBtnBook);
         addBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -81,6 +81,11 @@ public class BookFragment extends Fragment{
                 table.removeView(selectedRow);
             }
         });
+        if(!this.isVisible())
+        {
+            selectedBook = null;
+            selection = false;
+        }
         return view;
     }
 
@@ -97,80 +102,94 @@ public class BookFragment extends Fragment{
         ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels;
         TableLayout table =  view.findViewById(R.id.book_tableLayout);
-        //Border for the text views
+        //Background for the name text view
         final GradientDrawable gd = new GradientDrawable();
         gd.setColor(getResources().getColor(R.color.colorTeal));
         gd.setCornerRadius(2);
-        gd.setStroke(1, 0xFF000000);
+        gd.setStroke(2, 0xFF000000);
+        //Background for chapter, page and status text views
+        GradientDrawable gd2 = new GradientDrawable();
+        gd2.setColor(getResources().getColor(R.color.colorTeal));
+        gd2.setCornerRadius(2);
+        gd2.setStroke(2, 0xFF000000);
         //Font for the text views
         Typeface font = Typeface.create("casual",Typeface.BOLD);
+        //Text view parameters
+        TableRow.LayoutParams textViewParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        textViewParams.setMargins(1,1,1,1);
         //Header row
         TableRow headerRow = new TableRow(this.getContext());
-        TableLayout.LayoutParams headerRowParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
-        headerRowParams.setMargins(0,1,0,0);
-        headerRow.setLayoutParams(headerRowParams);
         //Header name text view
         TextView headerName = new TextView(this.getContext());
         headerName.setText(getResources().getString(R.string.book_NAME));
         headerName.setBackground(gd);
         headerName.setPadding(20,0,20,0);
         headerName.setTypeface(font);
+        headerName.setTextSize(12.5f);
         headerName.setTextColor(Color.BLACK);
-        headerName.setWidth(screenWidth/4);
+        headerName.setMinWidth(screenWidth/4);
+        headerName.setLayoutParams(textViewParams);
         headerRow.addView(headerName);
         //Header chapter text view
         TextView headerChapter = new TextView(this.getContext());
         headerChapter.setText(getResources().getString(R.string.book_CHAPTER));
-        headerChapter.setBackground(gd);
+        headerChapter.setBackground(gd2);
         headerChapter.setPadding(20,0,20,0);
         headerChapter.setTypeface(font);
+        headerChapter.setTextSize(12.5f);
         headerChapter.setTextColor(Color.BLACK);
-        headerChapter.setWidth(screenWidth/4);
+        headerChapter.setMinWidth(screenWidth/4);
+        headerChapter.setLayoutParams(textViewParams);
         headerRow.addView(headerChapter);
         //Header page text view
         TextView headerPage = new TextView(this.getContext());
         headerPage.setText(getResources().getString(R.string.book_PAGE));
-        headerPage.setBackground(gd);
+        headerPage.setBackground(gd2);
         headerPage.setPadding(20,0,20,0);
         headerPage.setTypeface(font);
+        headerPage.setTextSize(12.5f);
         headerPage.setTextColor(Color.BLACK);
-        headerPage.setWidth(screenWidth/4);
+        headerPage.setMinWidth(screenWidth/4);
+        headerPage.setLayoutParams(textViewParams);
         headerRow.addView(headerPage);
         //Header name text view
         TextView headerStatus = new TextView(this.getContext());
         headerStatus.setText(getResources().getString(R.string.book_STATUS));
-        headerStatus.setBackground(gd);
+        headerStatus.setBackground(gd2);
         headerStatus.setPadding(20,0,20,0);
         headerStatus.setTypeface(font);
+        headerStatus.setTextSize(12.5f);
         headerStatus.setTextColor(Color.BLACK);
-        headerStatus.setWidth(screenWidth/4);
+        headerStatus.setMinWidth(screenWidth/4);
+        headerStatus.setLayoutParams(textViewParams);
         headerRow.addView(headerStatus);
         //Add row to table
         table.addView(headerRow);
-        for(int i = 0; i < bookList.size();i++)
+        for(int i = 0; i < bookList.size(); i++)
         {
+            //New table row
             TableRow row = new TableRow(this.getContext());
-            //Set row parameters
-            TableLayout.LayoutParams tableRowParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
-            tableRowParams.setMargins(0,1,0,1);
-            row.setLayoutParams(tableRowParams);
-            //Set text views parameters
+            //Set text views properties
             TextView name = new TextView(this.getContext());
             name.setText(bookList.get(i).getName());
-            name.setBackground(gd);
             name.setPadding(20,0,20,0);
+            name.setLayoutParams(textViewParams);
+            name.setBackground(gd);
             TextView chapter = new TextView(this.getContext());
-            chapter.setText(String.valueOf(bookList.get(i).getChapter()));
-            chapter.setBackground(gd);
+            chapter.setText(bookList.get(i).getChapter());
             chapter.setPadding(20,0,20,0);
+            chapter.setLayoutParams(textViewParams);
+            chapter.setBackground(gd2);
             TextView page = new TextView(this.getContext());
-            page.setText(String.valueOf(bookList.get(i).getPage()));
-            page.setBackground(gd);
+            page.setText(bookList.get(i).getPage());
             page.setPadding(20,0,20,0);
+            page.setLayoutParams(textViewParams);
+            page.setBackground(gd2);
             TextView status = new TextView(this.getContext());
             status.setText(bookList.get(i).getStatus());
-            status.setBackground(gd);
             status.setPadding(20,0,20,0);
+            status.setLayoutParams(textViewParams);
+            status.setBackground(gd2);
             //Add text views to the row
             row.addView(name);
             row.addView(chapter);
