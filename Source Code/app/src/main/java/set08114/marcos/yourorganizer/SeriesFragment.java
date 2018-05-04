@@ -93,6 +93,15 @@ public class SeriesFragment extends Fragment
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        final TableLayout table = getView().findViewById(R.id.series_tableLayout);
+        table.removeAllViewsInLayout();
+        final Button modifyBtn = getView().findViewById(R.id.modifyBtnSeries);
+        final Button deleteBtn = getView().findViewById(R.id.deleteBtnSeries);
+        initializeSeriesTable(storage.getSeriesList(),getView(),modifyBtn,deleteBtn);
+    }
+    @Override
     public void onPause() {
         super.onPause();
         storage.storeLists();

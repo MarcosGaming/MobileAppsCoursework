@@ -93,6 +93,15 @@ public class FilmFragment extends Fragment{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        final TableLayout table = getView().findViewById(R.id.film_tableLayout);
+        table.removeAllViewsInLayout();
+        final Button modifyBtn = getView().findViewById(R.id.modifyBtnFilm);
+        final Button deleteBtn = getView().findViewById(R.id.deleteBtnFilm);
+        initializeFilmTable(storage.getFilmList(),getView(),modifyBtn,deleteBtn);
+    }
+    @Override
     public void onPause() {
         super.onPause();
         storage.storeLists();

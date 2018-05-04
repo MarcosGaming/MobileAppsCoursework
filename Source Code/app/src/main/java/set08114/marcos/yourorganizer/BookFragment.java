@@ -90,6 +90,15 @@ public class BookFragment extends Fragment{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        final TableLayout table = getView().findViewById(R.id.book_tableLayout);
+        table.removeAllViewsInLayout();
+        final Button modifyBtn = getView().findViewById(R.id.modifyBtnBook);
+        final Button deleteBtn = getView().findViewById(R.id.deleteBtnBook);
+        initializeBookTable(storage.getBookList(),getView(),modifyBtn,deleteBtn);
+    }
+    @Override
     public void onPause() {
         super.onPause();
         storage.storeLists();
